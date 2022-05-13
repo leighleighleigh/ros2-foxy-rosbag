@@ -1,0 +1,21 @@
+name: ros2-foxy-rosbag
+version: '0.2'
+summary: rosbag2 tool from ROS2 Foxy
+description: |
+  This allows portable use of the `ros2 bag` tool from ROS2 Foxy, very useful when a native installation is not available.
+
+grade: stable
+confinement: strict
+base: core20
+
+parts:
+  ros-demos:
+    plugin: colcon
+    source: ./src
+    stage-packages: [ros-foxy-ros2launch,ros-foxy-ros2bag,ros-foxy-ros-base,libpython3-dev,python3-argcomplete,ros2-foxy-ros2bag-transport]
+
+apps:
+  bag:
+    command: opt/ros/foxy/bin/ros2 bag
+    plugs: [network, network-bind] 
+    extensions: [ros2-foxy]
