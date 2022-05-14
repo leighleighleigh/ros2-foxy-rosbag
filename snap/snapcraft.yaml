@@ -20,7 +20,7 @@ parts:
   ros-demos:
     plugin: colcon
     source: ./src
-    stage-packages: [ros-foxy-ros2launch,ros-foxy-ros2bag,ros-foxy-ros-base,libpython3-dev,python3-argcomplete,ros-foxy-rosbag2-storage,ros-foxy-rosbag2-storage-default-plugins,ros-foxy-rosbag2-transport]
+    stage-packages: [ros-foxy-ros2launch,ros-foxy-ros2bag,ros-foxy-ros-base,libpython3-dev,python3-argcomplete,ros-foxy-rosbag2-storage,ros-foxy-rosbag2-storage-default-plugins,ros-foxy-rosbag2-transport,libasio-dev,libtinyxml2-dev,libcunit1-dev,ros-foxy-rmw,ros-foxy-rosidl-typesupport-connext-c,ros-foxy-rosidl-typesupport-connext-cpp]
 
 apps:
   bag:
