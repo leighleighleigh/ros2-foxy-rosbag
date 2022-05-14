@@ -1,6 +1,6 @@
 name: ros2-foxy-rosbag
-version: '0.3.1'
-summary: rosbag2 tool from ROS2 Foxy
+version: '0.3.1-ublox'
+summary: rosbag2 tool from ROS2 Foxy, with ublox node messages
 description: |
   This allows portable use of the `ros2 bag` tool from ROS2 Foxy, very useful when a native installation is not available.
 
@@ -20,7 +20,10 @@ parts:
   ros-demos:
     plugin: colcon
     source: ./src
+    build-packages:
+      - libusb-1.0-0-dev
     stage-packages: 
+      - libusb-1.0-0-dev
       - ros-foxy-ros2launch
       - ros-foxy-ros2bag
       - ros-foxy-ros-base
