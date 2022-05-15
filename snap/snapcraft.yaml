@@ -1,5 +1,5 @@
 name: ros2-foxy-rosbag
-version: '0.3.1-ublox'
+version: '0.3.1-mcap'
 summary: rosbag2 tool from ROS2 Foxy, with ublox node messages
 description: |
   This allows portable use of the `ros2 bag` tool from ROS2 Foxy, very useful when a native installation is not available.
@@ -16,17 +16,43 @@ architectures:
   - build-on: arm64
     run-on: arm64
 
+hooks:
+  configure:
+    plugs: [network,network-bind]
+
 parts:
-  ros-demos:
+  hook-scripts:
+    plugin: dump
+    source: ./hooks/
+    organize:
+      config-manager.sh: usr/bin/config-manager
+      configure.sh: snap/hooks/configure
+
+  wrapper-scripts:
+    plugin: dump
+    source: ./wrappers/
+    organize:
+      source-custom-ws.sh: usr/bin/source-custom-ws
+
+  ros-app:
     plugin: colcon
     source: ./src
     build-packages:
+      - openssl
+      - curl
+      - libcurl-dev
+      - ros-foxy-ros-base
+      - ros-foxy-rosidl-typesupport-fastrtps-c
+      - ros-foxy-rosbag2-storage
+      - libssl-dev
+      - git
       - libusb-1.0-0-dev
     stage-packages: 
       - libusb-1.0-0-dev
       - ros-foxy-ros2launch
       - ros-foxy-ros2bag
       - ros-foxy-ros-base
+      - ros-foxy-rosbridge-suite
       - ros-foxy-rosbridge-server
       - libpython3-dev
       - python3-argcomplete
@@ -62,7 +88,17 @@ environment:
   "ROS_HOME": "$SNAP_USER_DATA" # remap HOME for rospack
 
 apps:
+  ros2-custom-ws:
+    command: usr/bin/source-custom-ws
+    plugs: [home, network, network-bind]
+    extensions: [ros2-foxy]
+
   ros2:
     command: opt/ros/foxy/bin/ros2
-    plugs: [network, network-bind] 
+    plugs: [home, network, network-bind] 
+    extensions: [ros2-foxy]
+
+  rosbridge-server:
+    command: opt/ros/foxy/bin/ros2 launch rosbridge_server rosbridge_websocket_launch.xml
+    plugs: [network, network-bind]
     extensions: [ros2-foxy]
