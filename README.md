@@ -1,2 +1,25 @@
 # ros2-foxy-rosbag
-A Snapcraft package of the `ros2 bag` tool. WIP.
+A portable ROS2 Foxy toolkit, to provide the `ros2 bag` utility anywhere.
+
+## About
+ROS2 Foxy brings lots of QoS-related support to the ROS2 platform. 
+On hardware devices that do not support ROS2 Foxy (such as the Nvidia Jetson TX2), it can be difficult to capture bagfiles when QoS is in use.
+
+This tool allows for the ROS2 Foxy 'rosbag2' packages to be used, instead - and also bundles support for the MCAP storage plugin.
+Since the base 'ros2' command is exposed, it can be used as a generic ROS2 swiss-army-knife on any platform!
+
+## Usage
+```bash
+# Install the package
+snap install ros2-foxy-rosbag
+# Optionally set a custom workspace path, e.g for non-standard message types
+snap set ros2-foxy-rosbag custom-workspace-path ~/nova_ws/
+
+# Run ros2 commands under ROS2 Foxy!
+ros2-foxy-rosbag.ros2 topic list
+ros2-foxy-rosbag.ros2 bag record -a
+
+# A rosbridge_server has also been bundled for convenience, accessible on localhost:9090
+ros2-foxy-rosbag.rosbridge-server
+```
+
