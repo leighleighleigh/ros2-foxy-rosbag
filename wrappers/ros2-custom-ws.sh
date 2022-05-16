@@ -17,7 +17,7 @@ export CUSTOMWS=$(custom_workspace_path)
 if ! [[ -z "$CUSTOMWS" ]]; then
 	echo -e "\e[1mSourcing custom ROS workspace \e[33m${CUSTOMWS}\e[0m"
 	# Redirect errors away from us
-	source "${CUSTOMWS}/install/setup.bash" 2> /dev/null
+	source "${CUSTOMWS}/install/setup.bash" > /dev/null 2>&1
 else
 	echo -e "\e[1m\e[33mNo custom workspace defined. Custom message types may be unavailable.\e[0m"
 fi

@@ -1,5 +1,5 @@
 name: ros2-foxy-rosbag
-version: '0.3.3+git'
+version: '0.3.4+git'
 summary: rosbag2 tool from ROS2 Foxy, and extras
 description: |
   This allows portable use of the `ros2 bag` tool from ROS2 Foxy, very useful when a native installation is not available.
