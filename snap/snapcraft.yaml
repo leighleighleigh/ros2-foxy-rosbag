@@ -67,11 +67,14 @@ parts:
       - libtinyxml2-dev
       - libcunit1-dev
       - ros-foxy-rmw
+      - ros-foxy-rosidl-typesupport-fastrtps-c
+      - ros-foxy-rosidl-typesupport-fastrtps-cpp
       - ros-foxy-rosidl-typesupport-connext-c
       - ros-foxy-rosidl-typesupport-connext-cpp
       - libatlas-base-dev
       - lsb-core
       - lsb-release
+      - python3-colcon-common-extensions
 
     filesets:
       nocron: [ -var/spool/cron ]
@@ -91,17 +94,17 @@ environment:
   "ROS_HOME": "$SNAP_USER_DATA" # remap HOME for rospack
 
 apps:
+  colcon:
+    command: usr/bin/colcon
+    extensions: [ros2-foxy]
+    plugs: [home, network, network-bind, shared-memory]
+
   ros2:
     command: usr/bin/ros2-custom-ws
-    plugs: [home, network, network-bind]
-    extensions: [ros2-foxy]
-
-  ros2-no-custom-ws:
-    command: opt/ros/foxy/bin/ros2
-    plugs: [home, network, network-bind] 
+    plugs: [home, network, network-bind, shared-memory]
     extensions: [ros2-foxy]
 
   rosbridge-server:
     command: opt/ros/foxy/bin/ros2 launch rosbridge_server rosbridge_websocket_launch.xml
-    plugs: [network, network-bind]
+    plugs: [network, network-bind, home, shared-memory]
     extensions: [ros2-foxy]
