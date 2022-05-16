@@ -1,4 +1,4 @@
-#!/bin/sh -e
+#!/bin/bash
 
 # source the management script
 . "$SNAP/usr/bin/config-manager"
@@ -16,8 +16,7 @@ handle_ws_config()
 
 	# Validate 
 	if ! [ -d "${custom_ws}" ]; then
-		echo "\"$custom_ws\" folder does not exist. Ignoring." >&2
-		custom_ws=""
+		echo "\"$custom_ws\" folder does not exist?" 
 	fi
 
 	# run function from management script

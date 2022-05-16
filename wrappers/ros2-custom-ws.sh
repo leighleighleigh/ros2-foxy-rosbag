@@ -14,12 +14,16 @@ fi
 export CUSTOMWS=$(custom_workspace_path)
 
 # Source it if not empty
-if [ -z "$CUSTOMWS" ]; then
-	echo "Sourcing custom ROS workspace: ${CUSTOMWS}"
-	source "${CUSTOMWS}/install/setup.bash"
+if ! [[ -z "$CUSTOMWS" ]]; then
+	echo -e "\e[1mSourcing custom ROS workspace \e[33m${CUSTOMWS}\e[0m"
+	# Redirect errors away from us
+	source "${CUSTOMWS}/install/setup.bash" 2> /dev/null
 else
-	echo "No custom workspace defined. Custom message types may be unavailable."
+	echo -e "\e[1m[33mNo custom workspace defined. Custom message types may be unavailable.\e[0m"
 fi
+
+# Clear colours
+echo -e '\e[0m'
 
 
 # Run ros2 foxy command with the given arguments

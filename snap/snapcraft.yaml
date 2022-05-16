@@ -1,5 +1,5 @@
 name: ros2-foxy-rosbag
-version: '0.3.1-mcap'
+version: '0.3.2-mcap-customws'
 summary: rosbag2 tool from ROS2 Foxy, with ublox node messages
 description: |
   This allows portable use of the `ros2 bag` tool from ROS2 Foxy, very useful when a native installation is not available.
@@ -32,7 +32,7 @@ parts:
     plugin: dump
     source: ./wrappers/
     organize:
-      source-custom-ws.sh: usr/bin/source-custom-ws
+      ros2-custom-ws.sh: usr/bin/ros2-custom-ws
 
   ros-app:
     plugin: colcon
@@ -88,12 +88,12 @@ environment:
   "ROS_HOME": "$SNAP_USER_DATA" # remap HOME for rospack
 
 apps:
-  ros2-custom-ws:
-    command: usr/bin/source-custom-ws
+  ros2:
+    command: usr/bin/ros2-custom-ws
     plugs: [home, network, network-bind]
     extensions: [ros2-foxy]
 
-  ros2:
+  ros2-no-custom-ws:
     command: opt/ros/foxy/bin/ros2
     plugs: [home, network, network-bind] 
     extensions: [ros2-foxy]
