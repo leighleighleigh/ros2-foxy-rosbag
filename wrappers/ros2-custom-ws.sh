@@ -19,7 +19,7 @@ if ! [[ -z "$CUSTOMWS" ]]; then
 	# Redirect errors away from us
 	source "${CUSTOMWS}/install/setup.bash" 2> /dev/null
 else
-	echo -e "\e[1m[33mNo custom workspace defined. Custom message types may be unavailable.\e[0m"
+	echo -e "\e[1m\e[33mNo custom workspace defined. Custom message types may be unavailable.\e[0m"
 fi
 
 # Clear colours
