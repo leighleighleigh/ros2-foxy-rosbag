@@ -1,6 +1,6 @@
 name: ros2-foxy-rosbag
-version: '0.3.2-mcap-customws'
-summary: rosbag2 tool from ROS2 Foxy, with ublox node messages
+version: '0.3.3+git'
+summary: rosbag2 tool from ROS2 Foxy, and extras
 description: |
   This allows portable use of the `ros2 bag` tool from ROS2 Foxy, very useful when a native installation is not available.
 
@@ -11,8 +11,6 @@ base: core20
 architectures:
   - build-on: amd64
     run-on: amd64
-  - build-on: armhf
-    run-on: armhf
   - build-on: arm64
     run-on: arm64
 
