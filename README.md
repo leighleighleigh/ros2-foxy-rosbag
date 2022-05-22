@@ -36,5 +36,9 @@ Local `~/nova_ws` folders are automatically detected, but are overridden by any 
 # Specify your custom colcon workspace, if needed (provide the **full path**)
 # Here we are using the '~/nova_ws' folder, for example.
 sudo snap set ros2-foxy-rosbag custom-workspace-path="/home/${SUDO_USER}/nova_ws"
+# Validate changes
 sudo snap get ros2-foxy-rosbag
+# (example output)
+#Key                    Value
+#custom-workspace-path  /home/leigh/nova_ws
 ```
