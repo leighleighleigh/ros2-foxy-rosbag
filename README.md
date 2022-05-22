@@ -29,8 +29,7 @@ ros2-foxy-rosbag.rosbridge-server
 If you want to record or play bagfiles that contain additional **custom message types**, you can provide a **custom workspace path** via the snap config.
 
 The workspace is then sourced with `source $custom-workspace-path` in the snap environment whenever you use a command.
-
-Local `~/nova_ws` folders are automatically detected, but this can be disabled by setting `custom-workspace-path=""`.
+Local `~/nova_ws` folders are automatically detected, but are overridden by any manual setting.
 
 ```bash
 # ADVANCED
