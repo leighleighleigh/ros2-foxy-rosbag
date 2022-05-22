@@ -1,5 +1,5 @@
 name: ros2-foxy-rosbag
-version: '0.3.4+git'
+version: '0.3.5+git'
 summary: rosbag2 tool from ROS2 Foxy, and extras
 description: |
   This allows portable use of the `ros2 bag` tool from ROS2 Foxy, very useful when a native installation is not available.
@@ -17,6 +17,11 @@ architectures:
 hooks:
   configure:
     plugs: [network,network-bind]
+
+# Fix /dev/shm access for fastRTPS
+plugs:
+  shared-memory:
+    private: true
 
 parts:
   hook-scripts:
@@ -36,37 +41,67 @@ parts:
     plugin: colcon
     source: ./src
     build-packages:
-      - openssl
       - curl
-      - libcurl-dev
-      - ros-foxy-ros-base
-      - ros-foxy-rosidl-typesupport-fastrtps-c
-      - ros-foxy-rosbag2-storage
-      - libssl-dev
       - git
-      - libusb-1.0-0-dev
-    stage-packages: 
-      - libusb-1.0-0-dev
-      - ros-foxy-ros2launch
-      - ros-foxy-ros2bag
-      - ros-foxy-ros-base
-      - ros-foxy-rosbridge-suite
-      - ros-foxy-rosbridge-server
+      - libasio-dev
+      - libatlas-base-dev
+      - libcunit1-dev
+      - libcurl-dev
       - libpython3-dev
+      - libssl-dev
+      - libtinyxml2-dev
+      - libusb-1.0-0-dev
+      - lsb-core
+      - lsb-release
+      - openssl
       - python3-argcomplete
+      - python3-colcon-common-extensions
       - python3-numpy
+      - ros-foxy-ros-base
+      - ros-foxy-ros2bag
+      - ros-foxy-ros2launch
       - ros-foxy-rosbag2-storage
       - ros-foxy-rosbag2-storage-default-plugins
       - ros-foxy-rosbag2-transport
+      - ros-foxy-rosbridge-server
+      - ros-foxy-rosbridge-suite
+      - ros-foxy-geometry-msgs
+      - ros-foxy-rmw-fastrtps-cpp
+      - ros-foxy-rosidl-typesupport-fastrtps-c
+      - ros-foxy-rosidl-typesupport-fastrtps-cpp
+
+    build-environment:
+      - "RMW_IMPLEMENTATION": "rmw_fastrtps_cpp"
+
+    stage-packages: 
+      - curl
+      - git
       - libasio-dev
-      - libtinyxml2-dev
-      - libcunit1-dev
-      - ros-foxy-rmw
-      - ros-foxy-rosidl-typesupport-connext-c
-      - ros-foxy-rosidl-typesupport-connext-cpp
       - libatlas-base-dev
+      - libcunit1-dev
+      - libcurl-dev
+      - libpython3-dev
+      - libssl-dev
+      - libtinyxml2-dev
+      - libusb-1.0-0-dev
       - lsb-core
       - lsb-release
+      - openssl
+      - python3-argcomplete
+      - python3-colcon-common-extensions
+      - python3-numpy
+      - ros-foxy-rmw-fastrtps-cpp
+      - ros-foxy-rosidl-typesupport-fastrtps-c
+      - ros-foxy-rosidl-typesupport-fastrtps-cpp
+      - ros-foxy-ros-base
+      - ros-foxy-ros2bag
+      - ros-foxy-ros2launch
+      - ros-foxy-rosbag2-storage
+      - ros-foxy-rosbag2-storage-default-plugins
+      - ros-foxy-rosbag2-transport
+      - ros-foxy-rosbridge-server
+      - ros-foxy-rosbridge-suite
+      - ros-foxy-geometry-msgs
 
     filesets:
       nocron: [ -var/spool/cron ]
@@ -84,19 +119,20 @@ layout:
 environment:
   "LD_LIBRARY_PATH": "$SNAP/lib:$SNAP/lib/$SNAPCRAFT_ARCH_TRIPLET:$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET:$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/blas:$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/lapack:$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/atlas"
   "ROS_HOME": "$SNAP_USER_DATA" # remap HOME for rospack
+  "RMW_IMPLEMENTATION": "rmw_fastrtps_cpp"
 
 apps:
+  colcon:
+    command: usr/bin/colcon
+    extensions: [ros2-foxy]
+    plugs: [home, network, network-bind, shared-memory]
+
   ros2:
     command: usr/bin/ros2-custom-ws
-    plugs: [home, network, network-bind]
-    extensions: [ros2-foxy]
-
-  ros2-no-custom-ws:
-    command: opt/ros/foxy/bin/ros2
-    plugs: [home, network, network-bind] 
+    plugs: [home, network, network-bind, shared-memory]
     extensions: [ros2-foxy]
 
   rosbridge-server:
     command: opt/ros/foxy/bin/ros2 launch rosbridge_server rosbridge_websocket_launch.xml
-    plugs: [network, network-bind]
+    plugs: [network, network-bind, home, shared-memory]
     extensions: [ros2-foxy]
