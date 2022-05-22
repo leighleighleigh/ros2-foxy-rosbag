@@ -1,30 +1,41 @@
-# ros2-foxy-rosbag
-A portable ROS2 Foxy toolkit, to provide the `ros2 bag` utility anywhere, plus extras.
+# ros2-foxy-rosbag 
+[![ros2-foxy-rosbag](https://snapcraft.io/ros2-foxy-rosbag/badge.svg)](https://snapcraft.io/ros2-foxy-rosbag)
+
+A portable ROS2 Foxy toolkit, to provide the `ros2 bag` utility anywhere, plus extra packages to support the [Monash Nova Rover](https://www.novarover.space/) team.
+
+This snap was originally created to **work around the quirks of ROS-Eloquent, specifically when recording custom-QoS topics.**
 
 ```bash
+# Install! 
 sudo snap install ros2-foxy-rosbag
 
-# Specify your custom colcon workspace, if needed (try to provide the full path, sometimes `sudo` stuffs it up)
-snap set ros2-foxy-rosbag custom-workspace-path=~/nova_ws
-snap get ros2-foxy-rosbag
-
-# Use ros2 CLI tools
-ros2-foxy-rosbag.ros2 topic list
-
-# Record a bag file
+# Record all topics to a bag file, even those with weird QoS settings!
 ros2-foxy-rosbag.ros2 bag record -a
-# Record an MCAP file
-ros2-foxy-rosbag.ros2 bag record -a -s mcap
 
-# Start a websocket server to use Foxglove easily
-ros2-foxy-rosbag.rosbridge-server
-
+# ... or use any other ros2 CLI tools
+ros2-foxy-rosbag.ros2 topic list
 ```
+## MCAP
+Additional support for the [mcap](https://mcap.dev/) storage format is also included through the [rosbag2_storage_mcap](https://github.com/ros-tooling/rosbag2_storage_mcap) package.
+```bash
+ros2-foxy-rosbag.ros2 bag record -a -s mcap
+```
+## rosbridge_server -> Foxglove
+For easy visualisation with [Foxglove](https://foxglove.dev/), you can use the packaged [rosbridge_server](https://github.com/RobotWebTools/rosbridge_suite)!
+```bash
+ros2-foxy-rosbag.rosbridge-server
+```
+## Custom message types
+If you want to record or play bagfiles that contain additional **custom message types**, you can provide a **custom workspace path** via the snap config.
 
-## About
-ROS2 Foxy brings lots of QoS-related support to the ROS2 platform. 
-On hardware devices that do not support ROS2 Foxy (such as the Nvidia Jetson TX2), it can be difficult to capture bagfiles when QoS is in use.
+The workspace is then sourced with `source $custom-workspace-path` in the snap environment whenever you use a command.
 
-This tool allows for the ROS2 Foxy 'rosbag2' packages to be used, instead - and also bundles support for the MCAP storage plugin.
-Since the base 'ros2' command is exposed, it can be used as a generic ROS2 swiss-army-knife on any platform!
+Local `~/nova_ws` folders are automatically detected, but this can be disabled by setting `custom-workspace-path=""`.
 
+```bash
+# ADVANCED
+# Specify your custom colcon workspace, if needed (provide the **full path**)
+# Here we are using the '~/nova_ws' folder, for example.
+sudo snap set ros2-foxy-rosbag custom-workspace-path="/home/${SUDO_USER}/nova_ws"
+sudo snap get ros2-foxy-rosbag
+```
