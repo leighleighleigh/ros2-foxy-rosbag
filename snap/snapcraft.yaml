@@ -57,7 +57,6 @@ parts:
       - python3-argcomplete
       - python3-colcon-common-extensions
       - python3-numpy
-      - ros-foxy-rmw
       - ros-foxy-ros-base
       - ros-foxy-ros2bag
       - ros-foxy-ros2launch
@@ -66,11 +65,14 @@ parts:
       - ros-foxy-rosbag2-transport
       - ros-foxy-rosbridge-server
       - ros-foxy-rosbridge-suite
-      - ros-foxy-rosidl-typesupport-connext-c
-      - ros-foxy-rosidl-typesupport-connext-cpp
+      - ros-foxy-geometry-msgs
+      - ros-foxy-rmw-fastrtps-cpp
       - ros-foxy-rosidl-typesupport-fastrtps-c
       - ros-foxy-rosidl-typesupport-fastrtps-cpp
-      - ros-foxy-geometry-msgs
+
+    build-environment:
+      - "RMW_IMPLEMENTATION": "rmw_fastrtps_cpp"
+
     stage-packages: 
       - curl
       - git
@@ -88,7 +90,9 @@ parts:
       - python3-argcomplete
       - python3-colcon-common-extensions
       - python3-numpy
-      - ros-foxy-rmw
+      - ros-foxy-rmw-fastrtps-cpp
+      - ros-foxy-rosidl-typesupport-fastrtps-c
+      - ros-foxy-rosidl-typesupport-fastrtps-cpp
       - ros-foxy-ros-base
       - ros-foxy-ros2bag
       - ros-foxy-ros2launch
@@ -97,10 +101,6 @@ parts:
       - ros-foxy-rosbag2-transport
       - ros-foxy-rosbridge-server
       - ros-foxy-rosbridge-suite
-      - ros-foxy-rosidl-typesupport-connext-c
-      - ros-foxy-rosidl-typesupport-connext-cpp
-      - ros-foxy-rosidl-typesupport-fastrtps-c
-      - ros-foxy-rosidl-typesupport-fastrtps-cpp
       - ros-foxy-geometry-msgs
 
     filesets:
@@ -119,6 +119,7 @@ layout:
 environment:
   "LD_LIBRARY_PATH": "$SNAP/lib:$SNAP/lib/$SNAPCRAFT_ARCH_TRIPLET:$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET:$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/blas:$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/lapack:$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/atlas"
   "ROS_HOME": "$SNAP_USER_DATA" # remap HOME for rospack
+  "RMW_IMPLEMENTATION": "rmw_fastrtps_cpp"
 
 apps:
   colcon:
